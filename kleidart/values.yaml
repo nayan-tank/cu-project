@@ -1,0 +1,52 @@
+FRONTEND:
+  DEPLOYMENT: 
+    name: kleidart-frontend
+    replicaCount: 1
+    containerPort: 5173
+    image:
+      repository: nayantank/kleidart-frontend
+      tag: latest
+
+  SERVICE: 
+    name: kleidart-frontend
+    type: LoadBalancer
+    port: 80
+
+
+  SECRETS:
+ 
+
+    VITE_RAZORPAY_KEY_ID: rzp_test_qwv53wRialXt7X
+    VITE_RAZORPAY_KEY_SECRET: zsGg4vxoULsxhu8HKju7UsLu
+    VITE_JWT_SECRET: VX0Wh9UsN9Sd+7PRaEAHfGGeTlkOLqKpzLPPGLfSaHHVmxBqzo1kvBQX+dmVP9QBDF4=
+    VITE_API_BASE_URL: "kleidart-frontend.default.svc.local" 
+
+
+BACKEND:
+  DEPLOYMENT:
+    name: kleidart-backend
+    replicaCount: 1
+    containerPort: 5000
+    image:
+      repository: nayantank/kleidart-backend
+      tag: latest
+
+  SERVICE:
+    name: kleidart-backend
+    type: LoadBalancer
+    port: 80
+
+  SECRETS: 
+    RAZORPAY_KEY_ID: "rzp_test_abc123"
+    RAZORPAY_KEY_SECRET: "secret_abc"
+    MONGO_URI: "mongodb://user:pass@host:27017/db"
+    EMAIL_USER: "example@gmail.com"
+    EMAIL_PASS: "emailpass"
+    ALLOW_ORIGIN: "kleidart-frontend.default.svc.local"
+    BASE_URL: "kleidart-backend.default.svc.local"
+    JWT_SECRET: "jwt_secret"
+    CLOUDINARY_API_SECRET: "cloudinary_secret"
+    CLOUDINARY_API_KEY: "cloudinary_key"
+    CLOUDINARY_CLOUDNAME: "cloudinary_cloud"
+    PORT: "5000"
+   

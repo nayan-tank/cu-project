@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.FRONTEND.SERVICE.name }}-service
+spec:
+  type: {{ .Values.FRONTEND.SERVICE.type }}
+  selector:
+    app: {{ .Values.FRONTEND.DEPLOYMENT.name }}
+  ports:
+    - protocol: TCP
+      port: {{ .Values.FRONTEND.SERVICE.port }}
+      targetPort: {{ .Values.FRONTEND.DEPLOYMENT.containerPort }}
+...
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.BACKEND.SERVICE.name }}-service
+spec:
+  type: {{ .Values.BACKEND.SERVICE.type }}
+  selector:
+    app: {{ .Values.BACKEND.DEPLOYMENT.name }}
+  ports:
+    - protocol: TCP
+      port: {{ .Values.BACKEND.SERVICE.port }}
+      targetPort: {{ .Values.BACKEND.DEPLOYMENT.containerPort }}

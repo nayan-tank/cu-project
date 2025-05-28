@@ -1,0 +1,7 @@
+MONITORING:
+  install: false
+
+MICROSERVICE:
+  install: true
+  namespace: default 
+  

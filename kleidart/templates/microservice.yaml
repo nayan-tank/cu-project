@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.FRONTEND.DEPLOYMENT.name }}
+  labels:
+    app: {{ .Values.FRONTEND.DEPLOYMENT.name }}
+spec:
+  replicas: {{ .Values.FRONTEND.DEPLOYMENT.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.FRONTEND.DEPLOYMENT.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.FRONTEND.DEPLOYMENT.name }}
+    spec:
+      containers:
+        - name: {{ .Values.FRONTEND.DEPLOYMENT.name }}
+          image: "{{ .Values.FRONTEND.DEPLOYMENT.image.repository }}:{{ .Values.FRONTEND.DEPLOYMENT.image.tag }}"
+          ports:
+            - containerPort: {{ .Values.FRONTEND.DEPLOYMENT.containerPort }}
+          envFrom:
+            - secretRef:
+                name: kleidart-frontend-secrets
+...
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.BACKEND.DEPLOYMENT.name }}
+  labels:
+    app: {{ .Values.BACKEND.DEPLOYMENT.name }}
+spec:
+  replicas: {{ .Values.BACKEND.DEPLOYMENT.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.BACKEND.DEPLOYMENT.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.BACKEND.DEPLOYMENT.name }}
+    spec:
+      containers:
+        - name: {{ .Values.BACKEND.DEPLOYMENT.name }}
+          image: "{{ .Values.BACKEND.DEPLOYMENT.image.repository }}:{{ .Values.BACKEND.DEPLOYMENT.image.tag }}"
+          ports:
+            - containerPort: {{ .Values.BACKEND.DEPLOYMENT.containerPort }}
+          envFrom:
+            - secretRef:
+                name: kleidart-backend-secrets
+
+

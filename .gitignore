@@ -1,0 +1,20 @@
+### Helm template
+# Chart dependencies
+**/charts/*.tgz
+
+.idea
+
+# Ignore Terraform state files
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+
+# Ignore crash logs
+crash.log
+
+# Ignore Terraform .terraform directories
+.terraform/
+
+# Ignore provider binaries
+*.zip
+*.tar.gz

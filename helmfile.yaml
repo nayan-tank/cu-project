@@ -1,0 +1,60 @@
+environments:
+
+  # GCP Development
+  dev-gcp-as1-core:
+    values:
+      - ./env/dev/gcp-as1-core.yaml
+  dev-gcp-as1-service:
+    values:
+      - ./env/dev/gcp-as1-core.yaml
+      - ./env/dev/gcp-as1-service.yaml
+
+---
+repositories:
+  - name: cu-project
+    url: ghcr.io/cu-project/devops
+    oci: true
+  - name: grafana
+    url: https://grafana.github.io/helm-charts
+  - name: prometheus
+    url: https://grafana.github.io/helm-charts
+  - name: jenkins 
+    url: https://charts.jenkins.io
+
+    
+releases:
+  {{- if .Values.MONITORING.install | default false }}
+  - name: grafana
+    namespace: {{ .Values.MONITORING.namespace }}
+    chart: grafana/grafana
+    installed: {{ .Values.MONITORING.install | default false }}
+    values:
+      - ./grafana/values.yaml
+  {{- end }}
+
+  {{- if .Values.MONITORING.install | default false }}
+  - name: prometheus
+    namespace: {{ .Values.MONITORING.namespace }}
+    chart: prometheus-community/prometheus
+    installed: {{ .Values.MONITORING.install | default false }}
+    values:
+      - ./prometheus/values.yaml
+  {{- end }}
+
+  {{- if .Values.MONITORING.install | default false }}
+  - name: jenkins
+    namespace: {{ .Values.MONITORING.namespace }}
+    chart: jenkinsci/jenkins
+    installed: {{ .Values.MONITORING.install | default false }}
+    values:
+      - ./jenkins/values.yaml
+  {{- end }}
+
+  {{- if .Values.MICROSERVICE.install | default false }}
+  - name: kleidart
+    namespace: {{ .Values.MICROSERVICE.namespace }}
+    chart: ./kleidart
+    installed: {{ .Values.MICROSERVICE.install | default false }}
+    values:
+      - ./kleidart/values.yaml
+  {{- end }}
