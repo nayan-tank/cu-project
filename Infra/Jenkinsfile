@@ -1,0 +1,63 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_FRONTEND_IMAGE = "nayantank/kleidart-fronend:latest"
+        DOCKER_BACKEND_IMAGE = "nayantank/kleidart-backend:latest"
+        GKE_NAMESPACE = "default"
+        DOCKER_CREDENTIALS_ID = "dockerhub-creds"
+        KUBECONFIG_CREDENTIALS_ID = "gke-kubeconfig"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo 'Cloning GitHub repository...'
+                git branch: 'main', url: 'https://github.com/nayan-tank/cu-project.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                echo 'Building Docker image...'
+                sh '''
+                    cd kleidart-main/client/    
+                    docker build -t $DOCKER_FRONTEND_IMAGE -f MutliStagDockerfile .
+                    cd ../server/
+                    docker build -t $DOCKER_BACKEND_IMAGE -f MutliStagDockerfile .
+                '''
+            }
+        }
+
+        stage('Push to Docker Hub') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: env.DOCKER_CREDENTIALS_ID, usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    sh """
+                        echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                        docker push $DOCKER_FRONTEND_IMAGE
+                        docker push $DOCKER_BACKEND_IMAGE
+                    """
+                }
+            }
+        }
+
+        stage('Deploy to GKE') {
+            steps {
+                withCredentials([file(credentialsId: env.KUBECONFIG_CREDENTIALS_ID, variable: 'KUBECONFIG')]) {
+                    sh '''
+                        kubectl apply -f kleidart-main/k8s/* --namespace=$GKE_NAMESPACE
+                    '''
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "Deployment completed successfully!"
+        }
+        failure {
+            echo "Deployment failed. Check logs for details."
+        }
+    }
+}
