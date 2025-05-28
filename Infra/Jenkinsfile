@@ -21,10 +21,10 @@ pipeline {
             steps {
                 echo 'Building Docker image...'
                 sh '''
-                    cd client/    
+                    cd kleidart-main/client/    
                     docker build -t $DOCKER_FRONTEND_IMAGE -f MutliStagDockerfile .
                     cd ../server/
-                    docker build -t $DOCKER_BACKEND_IMAGE .
+                    docker build -t $DOCKER_BACKEND_IMAGE -f MutliStagDockerfile .
                 '''
             }
         }

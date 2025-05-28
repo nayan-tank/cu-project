@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kleidart-frontend
+  labels:
+    app: kleidart-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kleidart-frontend
+  template:
+    metadata:
+      labels:
+        app: kleidart-frontend
+    spec:
+      containers:
+        - name: kleidart-frontend
+          image: "nayantank/kleidart-frontend:latest"
+          ports:
+            - containerPort: 5173
+          envFrom:
+            - secretRef:
+                name: kleidart-frontend-secrets
+...
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kleidart-backend
+  labels:
+    app: kleidart-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kleidart-backend
+  template:
+    metadata:
+      labels:
+        app: kleidart-backend
+    spec:
+      containers:
+        - name: kleidart-backend
+          image: "nayantank/kleidart-backend:latest"
+          ports:
+            - containerPort: 5000
+          envFrom:
+            - secretRef:
+                name: kleidart-backend-secrets

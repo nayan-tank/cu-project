@@ -1,0 +1,65 @@
+Urgent 
+- option to change product image 
+- Modify product for more image upload 
+
+
+
+Done 
+- Pending to change Fevicon icon and logo also carousel   
+- form validations 
+- Website should not be redirected to login page on for guest users 
+- endpoint should be well named 
+- Add users list in admin dashboard 
+- make website responsive for mobile 
+- Add graphs in admin dashboard 
+- Need to update footer with more info
+- API in not authenticating users 
+- Option to change/forgot password 
+- Review and Rating has some issue 
+- Search option taking time to fetch data 
+- Option for customize details 
+- option to change thumbnail image 
+- Add option of profile page 
+
+
+Not important 
+- Need to change admin panel logo and name 
+- form for bulk product request 
+- User enable/disable option 
+- Add discount functionality (Based on discount price should be change)
+- Add load animation 
+- State in not updating in orders history 
+
+
+
+
+
+
+
+Product wise customize
+
+# Wallet/Purse/Passport
+- Name 
+- Color 
+- Charm 
+
+# Kitchen 
+- name
+- pattern 
+
+# Pen
+- name
+- pattern 
+
+# Photo frame 
+- photos
+- frame size
+- pattern  
+
+# Passport 
+- name
+- photo 
+- color 
+
+
+

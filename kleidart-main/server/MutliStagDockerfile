@@ -1,0 +1,19 @@
+# Stage 1: Build backend with dependencies
+FROM node:18-alpine as build
+
+WORKDIR /app
+COPY package*.json ./
+RUN npm install --production
+
+COPY . .
+
+# Stage 2: Minimal runtime container
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Copy only necessary runtime files
+COPY --from=build /app /app
+
+EXPOSE 5000
+CMD ["node", "server.js"]
